@@ -1,0 +1,48 @@
+﻿@model IEnumerable<_ITI.Questions_Answer>
+
+@{
+    ViewBag.Title = "Questions";
+}
+<section id="mu-contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="mu-contact-area">
+                    <!-- start title -->
+                    <div class="mu-title">
+
+                        <p>All course Avalible</p>
+                    </div>
+                    <!-- end title -->
+                    <table class="table">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Ask)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Answer)
+                            </th>
+                            <th></th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Ask)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Answer)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Answer", "Answer", new { id = item.Id_Ask })
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

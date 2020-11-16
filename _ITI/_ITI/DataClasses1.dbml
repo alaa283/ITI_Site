@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="ITI_DataBase" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=.;Initial Catalog=ITI_DataBase;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="ITI_DataBaseConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.[Questions&amp;Answers]" Member="Questions_Answers">
+    <Type Name="Questions_Answer">
+      <Column Name="Id_Ask" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Ask" Type="System.String" DbType="VarChar(1000)" CanBeNull="true" />
+      <Column Name="Answer" Type="System.String" DbType="VarChar(1000)" CanBeNull="true" />
+      <Association Name="Questions_Answer_Staff_Ask" Member="Staff_Asks" ThisKey="Id_Ask" OtherKey="Id_Ask" Type="Staff_Ask" />
+      <Association Name="Questions_Answer_staff_student" Member="staff_students" ThisKey="Id_Ask" OtherKey="Id_Student" Type="staff_student" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Student" Member="Students">
+    <Type Name="Student">
+      <Column Name="Id_Student" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Email_Student" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Phone" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Gender" Type="System.String" DbType="VarChar(6) NOT NULL" CanBeNull="false" />
+      <Column Name="Id_Courses" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="city" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="faculty" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="specialization" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="graduation_year" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="Student_Login" Member="Login" ThisKey="Id_Student" OtherKey="Password" Type="Login" Cardinality="One" />
+      <Association Name="Student_staff_student" Member="staff_students" ThisKey="Id_Student" OtherKey="Id_Student" Type="staff_student" />
+      <Association Name="Course_Student" Member="Course" ThisKey="Id_Courses" OtherKey="Id_Courses" Type="Course" IsForeignKey="true" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Courses" Member="Courses">
+    <Type Name="Course">
+      <Column Name="Id_Courses" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="Date" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Concept" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Course_Student" Member="Students" ThisKey="Id_Courses" OtherKey="Id_Courses" Type="Student" />
+      <Association Name="Course_Staff" Member="Staffs" ThisKey="Id_Courses" OtherKey="Id_Courses" Type="Staff" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Login" Member="Logins">
+    <Type Name="Login">
+      <Column Name="Password" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Id_Student" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Id_Staff" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Student_Login" Member="Student" ThisKey="Password" OtherKey="Id_Student" Type="Student" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Staff_Login" Member="Staff" ThisKey="Password" OtherKey="Id_Staff" Type="Staff" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[Staff&amp;Ask]" Member="Staff_Asks">
+    <Type Name="Staff_Ask">
+      <Column Name="Id_Ask" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Id_Staff" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Questions_Answer_Staff_Ask" Member="Questions_Answer" ThisKey="Id_Ask" OtherKey="Id_Ask" Type="Questions_Answer" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Staff_Staff_Ask" Member="Staff" ThisKey="Id_Staff" OtherKey="Id_Staff" Type="Staff" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[staff&amp;student]" Member="staff_students">
+    <Type Name="staff_student">
+      <Column Name="Id_Student" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Id_Ask" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Questions_Answer_staff_student" Member="Questions_Answer" ThisKey="Id_Student" OtherKey="Id_Ask" Type="Questions_Answer" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Student_staff_student" Member="Student" ThisKey="Id_Student" OtherKey="Id_Student" Type="Student" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Register" Member="Registers">
+    <Type Name="Register">
+      <Column Name="Email_Student" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Phone" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="city" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="faculty" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="specialization" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="graduation_year" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Staff" Member="Staffs">
+    <Type Name="Staff">
+      <Column Name="Id_Staff" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Email_Staff" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Specialization" Type="System.String" DbType="Text NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="Gender" Type="System.String" DbType="VarChar(6) NOT NULL" CanBeNull="false" />
+      <Column Name="Phone" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Id_Courses" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Staff_Login" Member="Login" ThisKey="Id_Staff" OtherKey="Password" Type="Login" Cardinality="One" />
+      <Association Name="Staff_Staff_Ask" Member="Staff_Asks" ThisKey="Id_Staff" OtherKey="Id_Staff" Type="Staff_Ask" />
+      <Association Name="Course_Staff" Member="Course" ThisKey="Id_Courses" OtherKey="Id_Courses" Type="Course" IsForeignKey="true" DeleteRule="CASCADE" />
+    </Type>
+  </Table>
+</Database>
